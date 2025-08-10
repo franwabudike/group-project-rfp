@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="shippingApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSU Storefront - Shipping</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body ng-controller="shippingController">
+
+    <header class="bg-primary text-white text-center py-5 shadow-sm">
+        <div class="container">
+            <h1 class="display-4">Nittany Exchange 🦁</h1>
+            <p class="lead">Thank you for shopping with us today, we hope you like your items, please enter your shipping details below:</p>
+            <p class="lead"></p>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="card p-4 shadow-sm">
+            <h2 class="text-center mb-4">Select Your Shipping Method</h2>
+            
+            <form id="shippingForm" name="shippingForm" novalidate ng-submit="submitForm()">
+
+                <!-- Shipping Destination Address -->
+                <div class="mb-3">
+                    <label for="address1" class="form-label">Address Line 1</label>
+                    <input type="text" class="form-control" id="address1" ng-model="shippingDetails.destinationAddress.address1" required>
+                    <div ng-show="shippingForm.address1.$invalid && shippingForm.address1.$dirty" class="text-danger mt-1">
+                        Please enter your street address.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address2" class="form-label">Address Line 2 (Optional)</label>
+                    <input type="text" class="form-control" id="address2" ng-model="shippingDetails.destinationAddress.address2">
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" id="city" ng-model="shippingDetails.destinationAddress.city" required>
+                        <div ng-show="shippingForm.city.$invalid && shippingForm.city.$dirty" class="text-danger mt-1">
+                            Please enter your city.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="state" class="form-label">State</label>
+                        <select class="form-select" id="state" ng-model="shippingDetails.destinationAddress.state" required>
+                            <option value="" disabled selected>Choose...</option>
+                            <option>PA</option>
+                            <option>NY</option>
+                            <option>NJ</option>
+                            <!-- Add more states as needed -->
+                        </select>
+                        <div ng-show="shippingForm.state.$invalid && shippingForm.state.$dirty" class="text-danger mt-1">
+                            Please select a state.
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="zip" class="form-label">Zip Code</label>
+                        <input type="text" class="form-control" id="zip" ng-model="shippingDetails.destinationAddress.zip" required>
+                        <div ng-show="shippingForm.zip.$invalid && shippingForm.zip.$dirty" class="text-danger mt-1">
+                            Please enter a zip code.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Details: carrier -->
+                <div class="mb-3">
+                    <label for="carrier" class="form-label">Shipping Carrier</label>
+                    <select class="form-select" id="carrier" ng-model="shippingDetails.carrier" required>
+                        <option value="" disabled selected>Select a carrier</option>
+                        <option>UPS</option>
+                        <option>FedEx</option>
+                        <option>USPS</option>
+                    </select>
+                    <div ng-show="shippingForm.carrier.$invalid && shippingForm.carrier.$dirty" class="text-danger mt-1">
+                        Please select a shipping carrier.
+                    </div>
+                </div>
+
+                <!-- Shipping Details: method -->
+                <div class="mb-4">
+                    <label for="method" class="form-label">Shipping Method</label>
+                    <div class="form-check p-3 border rounded-3 shipping-option mb-2" ng-class="{'selected-option': shippingDetails.method === 'Standard'}">
+                        <input class="form-check-input" type="radio" name="shippingMethod" id="standard" value="Standard" ng-model="shippingDetails.method" required>
+                        <label class="form-check-label" for="standard">
+                            Standard Shipping (5-7 business days)
+                        </label>
+                    </div>
+                    <div class="form-check p-3 border rounded-3 shipping-option mb-2" ng-class="{'selected-option': shippingDetails.method === 'Express'}">
+                        <input class="form-check-input" type="radio" name="shippingMethod" id="express" value="Express" ng-model="shippingDetails.method">
+                        <label class="form-check-label" for="express">
+                            Express Shipping (2-3 business days)
+                        </label>
+                    </div>
+                    <div class="form-check p-3 border rounded-3 shipping-option" ng-class="{'selected-option': shippingDetails.method === 'Overnight'}">
+                        <input class="form-check-input" type="radio" name="shippingMethod" id="overnight" value="Overnight" ng-model="shippingDetails.method">
+                        <label class="form-check-label" for="overnight">
+                            Overnight Shipping (1 business day)
+                        </label>
+                    </div>
+                    <div ng-show="shippingForm.shippingMethod.$invalid && shippingForm.shippingMethod.$dirty" class="text-danger mt-1">
+                        Please select a shipping method.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100" ng-disabled="shippingForm.$invalid">
+                    Proceed to Payment
+                </button>
+
+            </form>
+        </div>
+    </main>
+    
+    <footer class="bg-primary text-white text-center py-3">
+        <p class="mb-0">&copy; 2025 Nittany Exchange. We Are!</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
