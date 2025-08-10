@@ -1,10 +1,7 @@
-// app.js
 
-// AngularJS (1.8.2) Module and Controller
 var app = angular.module('shippingApp', []);
 
 app.controller('shippingController', function($scope, $http) {
-    // AngularJS Data Model
     $scope.shippingDetails = {
         destinationAddress: {
             address1: '',
@@ -17,12 +14,9 @@ app.controller('shippingController', function($scope, $http) {
         method: ''
     };
 
-    // JavaScript (page behaviors and field integrity checks)
     $scope.submitForm = function() {
         if ($scope.shippingForm.$valid) {
-            // All fields are valid, proceed with data handling
-
-            // JSON Product Document Creation
+          
             const shippingJSON = {
                 shopperId: '12345',
                 products: ['item_1', 'item_2'],
